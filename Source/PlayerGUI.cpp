@@ -1,5 +1,3 @@
-
-
 #include "PlayerGUI.h"
 
 PlayerGUI::PlayerGUI()
@@ -105,7 +103,7 @@ void PlayerGUI::buttonClicked(juce::Button* button)
         loopButton.setButtonText(isLooping ? "Unloop" : "Loop");
     }
 
-    //  Mute / Unmute
+    // Mute / Unmute
     if (button == &muteButton)
     {
         if (!isMuted)
@@ -136,4 +134,3 @@ void PlayerGUI::timerCallback()
 {
     updatePositionDisplay();
 }
-
