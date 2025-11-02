@@ -22,6 +22,7 @@ private:
 
     // GUI elements
     juce::TextButton loadButton{ "Load File" };
+    juce::TextButton playButton{ "Play" };
     juce::TextButton restartButton{ "Restart" };
     juce::TextButton stopButton{ "Stop" };
     juce::TextButton loopButton{ "Loop" };
