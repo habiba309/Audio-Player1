@@ -46,3 +46,8 @@ private:
 
 // This macro starts the app
 START_JUCE_APPLICATION(SimpleAudioPlayer)
+    std::unique_ptr<MainWindow> mainWindow;
+};
+
+// This macro starts the app
+START_JUCE_APPLICATION(SimpleAudioPlayer)
