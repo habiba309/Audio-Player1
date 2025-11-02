@@ -2,7 +2,7 @@
 
 PlayerGUI::PlayerGUI()
 {
-    for (auto* btn : { &loadButton, &restartButton, &stopButton, &loopButton, &muteButton })
+    for (auto* btn : { &loadButton, &playButton, &restartButton, &stopButton, &loopButton, &muteButton })
     {
         addAndMakeVisible(btn);
         btn->addListener(this);
@@ -32,11 +32,18 @@ void PlayerGUI::paint(juce::Graphics& g)
 
 void PlayerGUI::resized()
 {
-    loadButton.setBounds(20, 20, 100, 40);
-    restartButton.setBounds(140, 20, 100, 40);
-    stopButton.setBounds(260, 20, 100, 40);
-    loopButton.setBounds(380, 20, 100, 40);
-    muteButton.setBounds(500, 20, 100, 40); //  زرار Mute
+    int x = 20;
+    int y = 20;
+    int w = 90;
+    int h = 40;
+    int space = 10;
+
+    loadButton.setBounds(x, y, w, h); x += w + space;
+    playButton.setBounds(x, y, w, h); x += w + space;
+    restartButton.setBounds(x, y, w, h); x += w + space;
+    stopButton.setBounds(x, y, w, h); x += w + space;
+    loopButton.setBounds(x, y, w, h); x += w + space;
+    muteButton.setBounds(x, y, w, h);
 
     volumeSlider.setBounds(20, 80, 200, 20);
     positionSlider.setBounds(20, 120, 400, 20);
@@ -89,22 +96,25 @@ void PlayerGUI::buttonClicked(juce::Button* button)
                 playerAudio.loadFile(file);
             });
     }
-
-    if (button == &restartButton)
+    else if (button == &playButton)
+    {
+        playerAudio.play();
+    }
+    else if (button == &restartButton)
+    {
         playerAudio.setPosition(0.0);
-
-    if (button == &stopButton)
+    }
+    else if (button == &stopButton)
+    {
         playerAudio.stop();
-
-    if (button == &loopButton)
+    }
+    else if (button == &loopButton)
     {
         isLooping = !isLooping;
         playerAudio.setLooping(isLooping);
         loopButton.setButtonText(isLooping ? "Unloop" : "Loop");
     }
-
-    // Mute / Unmute
-    if (button == &muteButton)
+    else if (button == &muteButton)
     {
         if (!isMuted)
         {
