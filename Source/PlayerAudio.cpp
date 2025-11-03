@@ -4,7 +4,7 @@ PlayerAudio::PlayerAudio()
 {
     formatManager.registerBasicFormats();
 
-    // resamplingSource بتحتوي على transportSource
+   
     resamplingSource = std::make_unique<juce::ResamplingAudioSource>(&transportSource, false, 2);
 }
 
@@ -12,7 +12,7 @@ PlayerAudio::~PlayerAudio() {}
 
 void PlayerAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
-    // بدل ما نستخدم transportSource مباشرة، نستخدم resamplingSource
+    
     resamplingSource->prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
@@ -59,35 +59,4 @@ void PlayerAudio::setLooping(bool shouldLoop)
 void PlayerAudio::play()
 {
     transportSource.start();
-}
-
-void PlayerAudio::stop()
-{
-    transportSource.stop();
-}
-
-void PlayerAudio::setGain(float gain)
-{
-    transportSource.setGain(gain);
-}
-
-void PlayerAudio::setPosition(double pos)
-{
-    transportSource.setPosition(pos);
-}
-
-double PlayerAudio::getPosition() const
-{
-    return transportSource.getCurrentPosition();
-}
-
-double PlayerAudio::getLength() const
-{
-    return transportSource.getLengthInSeconds();
-}
-
-void PlayerAudio::setSpeed(double newSpeed)
-{
-    if (resamplingSource)
-        resamplingSource->setResamplingRatio(newSpeed);
 }
