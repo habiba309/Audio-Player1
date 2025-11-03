@@ -51,19 +51,19 @@ bool PlayerAudio::isPlaying() const
     return transportSource.isPlaying();
 }
 
-void PlayerAudio::setLooping(bool shouldLoop) 
+void PlayerAudio::setLooping(bool shouldLoop)
 {
     if (readerSource)
     {
         readerSource->setLooping(shouldLoop);
-	}
+    }
 
 }
 
 
 void PlayerAudio::play()
 {
-	transportSource.start();
+    transportSource.start();
 }
 void PlayerAudio::stop()
 {
@@ -85,5 +85,3 @@ double PlayerAudio::getLength() const
 {
     return transportSource.getLengthInSeconds();
 }
-
-
