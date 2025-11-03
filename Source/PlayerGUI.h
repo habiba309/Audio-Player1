@@ -40,6 +40,11 @@ private:
     juce::Label durationLabel;
     juce::Label currentTimeLabel;
     juce::Label speedLabel;
+    juce::Label metadataLable;
+    juce::AudioFormatManager formatmanager;
+    juce::Label playlistTitle{ "playlistTitle", "Playlist - Available Songs:" };
+    std::vector < std::unique_ptr<juce::TextButton>>playButtons;
+    std::vector<juce::File>loadedFiles;
 
     std::unique_ptr<juce::FileChooser> fileChooser;
 
@@ -48,6 +53,7 @@ private:
     void buttonClicked(juce::Button* button) override;
     void sliderValueChanged(juce::Slider* slider) override;
     void timerCallback() override;
+    void playfile(int index);
 
 
     juce::String formatTime(double seconds);
