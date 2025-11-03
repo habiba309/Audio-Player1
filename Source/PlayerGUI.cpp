@@ -8,19 +8,14 @@ PlayerGUI::PlayerGUI()
         btn->addListener(this);
     }
 
-    addAndMakeVisible(volumeSlider);
-    volumeSlider.setRange(0.0, 1.0);
-    volumeSlider.setValue(1.0);
+    
+    volumeSlider.setRange(0.0, 1.0,0.01);
+    volumeSlider.setValue(0.5);
     volumeSlider.addListener(this);
+    addAndMakeVisible(volumeSlider);
+    
 
-    addAndMakeVisible(positionSlider);
-    positionSlider.setRange(0.0, 1.0);
-    positionSlider.addListener(this);
-
-    addAndMakeVisible(durationLabel);
-    addAndMakeVisible(currentTimeLabel);
-
-    startTimerHz(10); // update every 100ms
+   
 }
 
 PlayerGUI::~PlayerGUI() {}
@@ -32,33 +27,17 @@ void PlayerGUI::paint(juce::Graphics& g)
 
 void PlayerGUI::resized()
 {
-    auto area = getLocalBounds().reduced(10);
+    loadButton.setBounds(20, 20, 100, 40);
+    restartButton.setBounds(140, 20, 100, 40);
+    stopButton.setBounds(260, 20, 100, 40);
+    muteButton.setBounds(380, 20, 100, 40);
+    pauseButton.setBounds(20, 80, 100, 40);
+    gotostartButton.setBounds(140, 80, 100, 40);
+    gotoendButton.setBounds(260, 80, 100, 40);
+    loopButton.setBounds(380, 80, 100, 40);
 
-    // تقسيم الواجهة لأجزاء
-    auto buttonRow = area.removeFromTop(40);
-    auto volumeRow = area.removeFromTop(40);
-    auto positionRow = area.removeFromTop(40);
-    auto timeRow = area.removeFromTop(30);
 
-    // ترتيب الأزرار في صف واحد
-    int buttonWidth = buttonRow.getWidth() / 7;
-    loadButton.setBounds(buttonRow.removeFromLeft(buttonWidth).reduced(2));
-    restartButton.setBounds(buttonRow.removeFromLeft(buttonWidth).reduced(2));
-    stopButton.setBounds(buttonRow.removeFromLeft(buttonWidth).reduced(2));
-    pauseButton.setBounds(buttonRow.removeFromLeft(buttonWidth).reduced(2));
-    gotostartButton.setBounds(buttonRow.removeFromLeft(buttonWidth).reduced(2));
-    gotoendButton.setBounds(buttonRow.removeFromLeft(buttonWidth).reduced(2));
-    muteButton.setBounds(buttonRow.removeFromLeft(buttonWidth).reduced(2));
-
-    // سطر السلايدر بتاع الصوت
-    volumeSlider.setBounds(volumeRow.reduced(10, 5));
-
-    // سطر السلايدر بتاع البوزيشن
-    positionSlider.setBounds(positionRow.reduced(10, 5));
-
-    // سطر الوقت (يمين ويسار)
-    currentTimeLabel.setBounds(timeRow.removeFromLeft(60));
-    durationLabel.setBounds(timeRow.removeFromRight(60));
+    volumeSlider.setBounds(20, 140, getWidth() - 40, 30);
 }
 
 
@@ -155,7 +134,8 @@ void PlayerGUI::buttonClicked(juce::Button* button)
 }
 void PlayerGUI::sliderValueChanged(juce::Slider* slider)
 {
-
+    if (slider == &volumeSlider)
+        playerAudio.setGain((float)slider->getValue());
 }
 
 void PlayerGUI::timerCallback()
