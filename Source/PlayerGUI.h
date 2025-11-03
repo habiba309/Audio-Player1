@@ -36,8 +36,10 @@ private:
 
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
+    juce::Slider speedSlider;
     juce::Label durationLabel;
     juce::Label currentTimeLabel;
+    juce::Label speedLabel;
 
     std::unique_ptr<juce::FileChooser> fileChooser;
 
