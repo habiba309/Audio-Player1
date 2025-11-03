@@ -8,7 +8,7 @@ public:
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
 	void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
 	void releaseResources();
-	bool loadFile(const juce::File&  file);
+	bool loadFile(const juce::File& file);
 	void play();
 	void stop();
 	bool isPlaying() const;
