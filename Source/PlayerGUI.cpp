@@ -11,6 +11,8 @@ PlayerGUI::PlayerGUI()
         btn->addListener(this);
     }
 
+
+
     // ===== Volume Slider =====
     addAndMakeVisible(volumeSlider);
     volumeSlider.setRange(0.0, 1.0, 0.01);
@@ -58,7 +60,7 @@ PlayerGUI::PlayerGUI()
     currentTimeLabel.setColour(juce::Label::outlineColourId, juce::Colours::grey);
     addAndMakeVisible(currentTimeLabel);
     // ===== Timer =====
-    startTimerHz(30); // تحديث سريع للمؤشر
+    startTimerHz(30); 
    
 }
 
