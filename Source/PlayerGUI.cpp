@@ -137,6 +137,11 @@ void PlayerGUI::buttonClicked(juce::Button* button)
         }
     }
 }
+void PlayerGUI::sliderValueChanged(juce::Slider* slider)
+{
 
+}
 
-
+void PlayerGUI::timerCallback()
+{
+}
