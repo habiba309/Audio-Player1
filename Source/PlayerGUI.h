@@ -3,9 +3,9 @@
 #include "PlayerAudio.h"
 
 class PlayerGUI : public juce::Component,
-                  public juce::Button::Listener,
-                  public juce::Slider::Listener,
-                  public juce::Timer
+    public juce::Button::Listener,
+    public juce::Slider::Listener,
+    public juce::Timer
 {
 public:
     PlayerGUI();
@@ -25,10 +25,13 @@ private:
     juce::TextButton restartButton{ "Restart" };
     juce::TextButton stopButton{ "Stop" };
     juce::TextButton loopButton{ "Loop" };
-    juce::TextButton muteButton{ "Mute" }; 
+    juce::TextButton muteButton{ "Mute" };
+    juce::TextButton pauseButton{ "Pause" };
+    juce::TextButton gotostartButton{ "|< Start" };
+    juce::TextButton gotoendButton{ "End >|" };
 
     bool isLooping = false;
-    bool isMuted = false;                  
+    bool isMuted = false;
     float previousVolume = 1.0f;
 
     juce::Slider volumeSlider;
@@ -39,10 +42,10 @@ private:
     std::unique_ptr<juce::FileChooser> fileChooser;
 
     // Event handlers
-    void updatePositionDisplay();
+
     void buttonClicked(juce::Button* button) override;
-    void sliderValueChanged(juce::Slider* slider) override;
-    void timerCallback() override;
+
+
     juce::String formatTime(double seconds);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerGUI)

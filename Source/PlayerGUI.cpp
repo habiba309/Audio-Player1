@@ -2,7 +2,7 @@
 
 PlayerGUI::PlayerGUI()
 {
-    for (auto* btn : { &loadButton, &restartButton, &stopButton, &loopButton, &muteButton })
+    for (auto* btn : { &loadButton, &restartButton, &stopButton, &loopButton, &muteButton ,&pauseButton ,&gotostartButton ,&gotoendButton })
     {
         addAndMakeVisible(btn);
         btn->addListener(this);
@@ -36,8 +36,10 @@ void PlayerGUI::resized()
     restartButton.setBounds(140, 20, 100, 40);
     stopButton.setBounds(260, 20, 100, 40);
     loopButton.setBounds(380, 20, 100, 40);
-    muteButton.setBounds(500, 20, 100, 40); //  زرار Mute
-
+    muteButton.setBounds(500, 20, 100, 40);//  زرار Mute
+    pauseButton.setBounds(20, 80, 100, 40);
+    gotostartButton.setBounds(140, 80, 100, 40);
+    gotoendButton.setBounds(260, 80, 100, 40);
     volumeSlider.setBounds(20, 80, 200, 20);
     positionSlider.setBounds(20, 120, 400, 20);
     currentTimeLabel.setBounds(430, 120, 60, 20);
@@ -59,15 +61,7 @@ void PlayerGUI::releaseResources()
     playerAudio.releaseResources();
 }
 
-void PlayerGUI::updatePositionDisplay()
-{
-    auto current = playerAudio.getCurrentPosition();
-    auto total = playerAudio.getLengthInSeconds();
 
-    positionSlider.setValue(current / total, juce::dontSendNotification);
-    currentTimeLabel.setText(formatTime(current), juce::dontSendNotification);
-    durationLabel.setText(formatTime(total), juce::dontSendNotification);
-}
 
 juce::String PlayerGUI::formatTime(double seconds)
 {
@@ -102,6 +96,28 @@ void PlayerGUI::buttonClicked(juce::Button* button)
         playerAudio.setLooping(isLooping);
         loopButton.setButtonText(isLooping ? "Unloop" : "Loop");
     }
+    if (button == &pauseButton)
+    {
+        if (playerAudio.isPlaying())
+        {
+            playerAudio.stop();
+            pauseButton.setButtonText("Play");
+        }
+        else
+        {
+            playerAudio.play();
+            pauseButton.setButtonText("Pause");
+        }
+
+    }
+    if (button == &gotostartButton)
+    {
+        playerAudio.setPosition(0.0);
+    }
+    if (button == &gotoendButton)
+    {
+        playerAudio.setPosition(playerAudio.getLength());
+    }
 
     // Mute / Unmute
     if (button == &muteButton)
@@ -122,15 +138,5 @@ void PlayerGUI::buttonClicked(juce::Button* button)
     }
 }
 
-void PlayerGUI::sliderValueChanged(juce::Slider* slider)
-{
-    if (slider == &volumeSlider && !isMuted)
-        playerAudio.setGain((float)volumeSlider.getValue());
-    else if (slider == &positionSlider)
-        playerAudio.setPositionRelative((float)positionSlider.getValue());
-}
 
-void PlayerGUI::timerCallback()
-{
-    updatePositionDisplay();
-}
+
