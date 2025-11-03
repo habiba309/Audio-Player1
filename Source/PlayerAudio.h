@@ -1,5 +1,6 @@
 #pragma once // PlayerAudio.h
 #include <JuceHeader.h>
+
 class PlayerAudio
 {
 public:
@@ -18,9 +19,12 @@ public:
 	void setPosition(double pos);
 	double getPosition() const;
 	double getLength() const;
+	void setSpeed(double newSpeed);
+
 private:
 	juce::AudioFormatManager formatManager;
-	std::unique_ptr< juce::AudioFormatReaderSource> readerSource;
+	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
 	juce::AudioTransportSource transportSource;
+	std::unique_ptr<juce::ResamplingAudioSource> resamplingSource;
 	// JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PlayerAudio)
 };
