@@ -56,7 +56,46 @@ void PlayerAudio::setLooping(bool shouldLoop)
         readerSource->setLooping(shouldLoop);
 }
 
+void PlayerAudio::setGain(float gain)
+{
+    transportSource.setGain(gain);
+}
+
+void PlayerAudio::setPosition(double pos)
+{transportSource.setPosition(pos);
+}
+
+double PlayerAudio::getPosition() const
+{
+    
+    return transportSource.getCurrentPosition();
+}
+
+double PlayerAudio::getLength() const
+{
+    return transportSource.getLengthInSeconds();
+}
+
+void PlayerAudio::setSpeed(double newSpeed)
+{
+}
+
+double PlayerAudio::getCurrentPosition() const
+{
+    return 0.0;
+}
+
+double PlayerAudio::getLengths() const
+{
+    return transportSource.getLengthInSeconds();
+}
+
 void PlayerAudio::play()
 {
     transportSource.start();
+}
+
+void PlayerAudio::stop()
+{
+    transportSource.stop();
 }

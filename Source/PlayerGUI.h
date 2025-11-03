@@ -31,7 +31,15 @@ private:
     juce::TextButton pauseButton{ "Pause" };
     juce::TextButton gotostartButton{ "|< Start" };
     juce::TextButton gotoendButton{ "End >|" };
-
+    juce::TextButton aButton{ "Set A" };
+    juce::TextButton bButton{ "Set B" };
+    juce::TextButton abLoopButton{ "A-B Loop OFF" };
+    double abLoopStart = 0.0;
+    double abLoopEnd = 0.0;
+    bool isABLooping = false;
+    bool isAPointSet = false;
+    bool isBPointSet = false;
+    juce::TextButton clearPointsButton{ "Clear Points" };
     bool isLooping = false;
     bool isMuted = false;
     float previousVolume = 1.0f;
@@ -39,7 +47,7 @@ private:
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
     juce::Slider speedSlider;
-    juce::Label durationLabel;
+    
     juce::Label currentTimeLabel;
     juce::Label speedLabel;
     juce::Label metadataLable;
@@ -47,7 +55,7 @@ private:
     juce::Label playlistTitle{ "playlistTitle", "Playlist - Available Songs:" };
     std::vector < std::unique_ptr<juce::TextButton>>playButtons;
     std::vector<juce::File>loadedFiles;
-
+    void updatePositionDisplay();
     std::unique_ptr<juce::FileChooser> fileChooser;
 
     // ===== Waveform Display =====
