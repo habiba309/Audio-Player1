@@ -3,7 +3,8 @@
 MainComponent::MainComponent()
 {
 
-
+    player1.setPlayerTitle("Audio Player One");
+    player2.setPlayerTitle("Audio Player Two");
 
     addAndMakeVisible(player1);
     addAndMakeVisible(player2);

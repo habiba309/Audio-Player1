@@ -22,6 +22,11 @@ public:
     bool hasFileLoaded() const { return playerAudio.hasFileLoaded(); }
     bool isPlaying() const { return playerAudio.isPlaying(); }
     PlayerAudio* getPlayerAudio() { return &playerAudio; }
+    void setPlayerTitle(const juce::String& title)
+    {
+        playerTitleLabel.setText(title, juce::dontSendNotification);
+    }
+
 private:
     PlayerAudio playerAudio;
 
@@ -46,11 +51,10 @@ private:
     bool isLooping = false;
     bool isMuted = false;
     float previousVolume = 1.0f;
-
     juce::Slider volumeSlider;
     juce::Slider positionSlider;
     juce::Slider speedSlider;
-    
+    juce::Label playerTitleLabel;
     juce::Label currentTimeLabel;
     juce::Label speedLabel;
     juce::Label metadataLable;

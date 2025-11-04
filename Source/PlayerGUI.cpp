@@ -2,6 +2,12 @@
 
 PlayerGUI::PlayerGUI()
 {
+    playerTitleLabel.setJustificationType(juce::Justification::centred);
+    playerTitleLabel.setInterceptsMouseClicks(false, false);
+    playerTitleLabel.setColour(juce::Label::textColourId, juce::Colours::white);
+    playerTitleLabel.setColour(juce::Label::backgroundColourId, juce::Colour(0xFF0A0A0A)); 
+    playerTitleLabel.setFont(juce::Font(16.0f, juce::Font::bold));
+    addAndMakeVisible(playerTitleLabel);
     // ===== Add Buttons =====
     formatmanager.registerBasicFormats();
     for (auto* btn : { &loadButton, &restartButton, &stopButton, &loopButton,
@@ -70,7 +76,6 @@ PlayerGUI::~PlayerGUI() {}
 
 void PlayerGUI::paint(juce::Graphics& g)
 {
-   
     g.setGradientFill(juce::ColourGradient(
         juce::Colour(0xFF0D0D0D), 0, 0,
         juce::Colour(0xFF2E2E2E), 0, getHeight(),
@@ -78,8 +83,15 @@ void PlayerGUI::paint(juce::Graphics& g)
     ));
     g.fillAll();
 
+    g.setColour(juce::Colour(0xFF0A0A0A));
+    g.drawRoundedRectangle(5, 5, getWidth() - 10, getHeight() - 10, 8, 3);
+    g.setColour(juce::Colour(0xFF1E1E1E));
+    g.fillRoundedRectangle(6, 6, getWidth() - 12, getHeight() - 12, 6);
+   
+    
+
     // ===== Waveform Drawing =====
-    auto waveformArea = juce::Rectangle<int>(20, 270, getWidth() - 40, 100);
+    auto waveformArea = juce::Rectangle<int>(20, 300, getWidth() - 40, 100);
 
     g.setColour(juce::Colours::black.withAlpha(0.4f));
     g.fillRect(waveformArea);
@@ -112,35 +124,36 @@ void PlayerGUI::paint(juce::Graphics& g)
 
 void PlayerGUI::resized()
 {
-    loadButton.setBounds(20, 20, 100, 40);
-    restartButton.setBounds(130, 20, 100, 40);
-    stopButton.setBounds(240, 20, 100, 40);
+    playerTitleLabel.setBounds(10, 10, getWidth() - 20, 30);
+    loadButton.setBounds(20, 50, 100, 40);
+    restartButton.setBounds(130, 50, 100, 40);
+    stopButton.setBounds(240, 50, 100, 40);
 
    
-    aButton.setBounds(350, 20, 80, 40);
-    bButton.setBounds(440, 20, 80, 40);
-    abLoopButton.setBounds(530, 20, 100, 40);
-    clearPointsButton.setBounds(570, 70, 100, 40);
+    aButton.setBounds(350, 50, 80, 40);
+    bButton.setBounds(440, 50, 80, 40);
+    abLoopButton.setBounds(530, 50, 100, 40);
+    clearPointsButton.setBounds(570, 100, 100, 40);
 
     
-    muteButton.setBounds(20, 70, 100, 40);
-    pauseButton.setBounds(130, 70, 100, 40);
-    gotostartButton.setBounds(240, 70, 100, 40);
-    gotoendButton.setBounds(350, 70, 100, 40);
-    loopButton.setBounds(460, 70, 100, 40);
+    muteButton.setBounds(20, 100, 100, 40);
+    pauseButton.setBounds(130, 100, 100, 40);
+    gotostartButton.setBounds(240, 100, 100, 40);
+    gotoendButton.setBounds(350, 100, 100, 40);
+    loopButton.setBounds(460, 100, 100, 40);
 
  
-    volumeSlider.setBounds(20, 120, getWidth() - 40, 40);
-    currentTimeLabel.setBounds(20, 170, 100, 20);
-    positionSlider.setBounds(130, 170, getWidth() - 150, 20);
-    speedLabel.setBounds(20, 200, getWidth() - 40, 20);
-    speedSlider.setBounds(20, 220, getWidth() - 40, 40);
+    volumeSlider.setBounds(20, 150, getWidth() - 40, 40);
+    currentTimeLabel.setBounds(20, 200, 100, 20);
+    positionSlider.setBounds(130, 200, getWidth() - 150, 20);
+    speedLabel.setBounds(20, 230, getWidth() - 40, 20);
+    speedSlider.setBounds(20, 250, getWidth() - 40, 40);
     speedSlider.setColour(juce::Slider::trackColourId, juce::Colour(0xFF5A2A3A));
     volumeSlider.setColour(juce::Slider::trackColourId, juce::Colour(0xFF5A2A3A));
     positionSlider.setColour(juce::Slider::trackColourId, juce::Colour(0xFF5A2A3A));
 
 
-    metadataLable.setBounds(20, 380, getWidth() - 40, 40); // moved down below waveform
+    metadataLable.setBounds(20, 410, getWidth() - 40, 40); // moved down below waveform
     playlistTitle.setBounds(20, metadataLable.getBottom() + 10, getWidth() - 40, 25);
     playlistTitle.setColour(juce::Label::textColourId, juce::Colour(0xFFB0A0FF));
 
@@ -334,12 +347,12 @@ void PlayerGUI::buttonClicked(juce::Button* button)
             if (isABLooping)
             {
                 abLoopButton.setButtonText("A-B Loop ON");
-                abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+                abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::purple);
             }
             else
             {
                 abLoopButton.setButtonText("A-B Loop OFF");
-                abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::grey);
+                abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xFF1E3A5C));
             }
         }
 
@@ -355,7 +368,7 @@ void PlayerGUI::buttonClicked(juce::Button* button)
         aButton.setButtonText("Set A");
         bButton.setButtonText("Set B");
         abLoopButton.setButtonText("A-B Loop OFF");
-        abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::lightgrey);
+        abLoopButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xFF1E3A5C));
     }
 
     if (button == &pauseButton)
