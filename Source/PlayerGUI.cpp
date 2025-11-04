@@ -40,6 +40,8 @@ PlayerGUI::PlayerGUI()
     playlistTitle.setColour(juce::Label::textColourId, juce::Colours::whitesmoke);
     playlistTitle.setFont(juce::Font(14.0f, juce::Font::bold));
     addAndMakeVisible(playlistTitle);
+    addAndMakeVisible(playlistViewport);
+    playlistViewport.setViewedComponent(&playlistContainer, false);
 
     // ===== Speed Slider =====
     addAndMakeVisible(speedSlider);
@@ -157,27 +159,20 @@ void PlayerGUI::resized()
     playlistTitle.setBounds(20, metadataLable.getBottom() + 10, getWidth() - 40, 25);
     playlistTitle.setColour(juce::Label::textColourId, juce::Colour(0xFFB0A0FF));
 
+    playlistViewport.setBounds(20, playlistTitle.getBottom() + 5, getWidth() - 40, getHeight() - (playlistTitle.getBottom() + 25));
+
     int ButtonHeight = 25;
-    int Buttonstarty = playlistTitle.getBottom() + 5;
     int space = 3;
-    int maxButtonWidth = 250;
-    int startx = 20;
-
-    for (size_t i = 0; i < playButtons.size(); ++i)
+    int y = 0;
+    for (size_t i = 0; i < playButtons.size(); ++i) 
     {
-        if (playButtons[i] != nullptr)
+        if (playButtons[i] != nullptr) 
         {
-            playButtons[i]->setColour(juce::TextButton::buttonColourId, juce::Colour(0xFFB0E0E6));
-            playButtons[i]->setColour(juce::TextButton::textColourOffId, juce::Colours::black);
-            juce::String buttonText = playButtons[i]->getButtonText();
-            int requirWidth = buttonText.length() * 9 + 40;
-            if (requirWidth > maxButtonWidth)
-                maxButtonWidth = requirWidth;
-
-            int y = Buttonstarty + (int)i * (ButtonHeight + space);
-            playButtons[i]->setBounds(startx, y, maxButtonWidth, ButtonHeight);
+            playButtons[i]->setBounds(0, y, playlistViewport.getWidth() - 20, ButtonHeight);
+            y += ButtonHeight + space;
         }
     }
+    playlistContainer.setSize(playlistViewport.getWidth(), y);
 }
 
 void PlayerGUI::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
@@ -289,7 +284,9 @@ void PlayerGUI::buttonClicked(juce::Button* button)
                         loadedFiles.push_back(file);
                         auto playbutton = std::make_unique<juce::TextButton>("Play-> " + file.getFileName());
                         playbutton->addListener(this);
-                        addAndMakeVisible(playbutton.get());
+                        playlistContainer.addAndMakeVisible(playbutton.get());
+                        playbutton->setColour(juce::TextButton::buttonColourId, juce::Colour(0xFFADD8E6));
+                        playbutton->setColour(juce::TextButton::textColourOffId, juce::Colours::black);
                         playButtons.push_back(std::move(playbutton));
                     }
                 }

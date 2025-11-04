@@ -29,6 +29,9 @@ public:
 
 private:
     PlayerAudio playerAudio;
+    juce::Viewport playlistViewport;
+    juce::Component playlistContainer;
+
 
     // GUI elements
     juce::TextButton loadButton{ "Load File" };
