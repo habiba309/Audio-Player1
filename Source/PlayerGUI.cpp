@@ -9,8 +9,10 @@ PlayerGUI::PlayerGUI()
     {
         addAndMakeVisible(btn);
         btn->addListener(this);
+        btn->setColour(juce::TextButton::textColourOffId, juce::Colours::whitesmoke);
+        btn->setColour(juce::TextButton::buttonColourId, juce::Colour(0xFF1E3A5C));
     }
-
+    loadButton.setColour(juce::TextButton::buttonColourId, juce::Colour(0xFF4A658C));
 
 
     // ===== Volume Slider =====
@@ -68,7 +70,13 @@ PlayerGUI::~PlayerGUI() {}
 
 void PlayerGUI::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colours::darkgrey);
+   
+    g.setGradientFill(juce::ColourGradient(
+        juce::Colour(0xFF0D0D0D), 0, 0,
+        juce::Colour(0xFF2E2E2E), 0, getHeight(),
+        false
+    ));
+    g.fillAll();
 
     // ===== Waveform Drawing =====
     auto waveformArea = juce::Rectangle<int>(20, 270, getWidth() - 40, 100);
@@ -78,7 +86,14 @@ void PlayerGUI::paint(juce::Graphics& g)
 
     if (isWaveformLoaded && thumbnail.getTotalLength() > 0.0)
     {
-        g.setColour(juce::Colours::lightgreen);
+
+        g.setGradientFill(juce::ColourGradient(
+            juce::Colour(0xFFBF40FF),
+            (float)waveformArea.getX(), (float)waveformArea.getY(),
+            juce::Colour(0xFF40C4FF),
+            (float)waveformArea.getRight(), (float)waveformArea.getY(),
+            false
+        ));
         thumbnail.drawChannels(g, waveformArea, 0.0, thumbnail.getTotalLength(), 1.0f);
 
         // Draw playhead
@@ -104,8 +119,8 @@ void PlayerGUI::resized()
    
     aButton.setBounds(350, 20, 80, 40);
     bButton.setBounds(440, 20, 80, 40);
-    abLoopButton.setBounds(550, 20, 100, 40);
-    clearPointsButton.setBounds(670, 20, 100, 40);
+    abLoopButton.setBounds(530, 20, 100, 40);
+    clearPointsButton.setBounds(570, 70, 100, 40);
 
     
     muteButton.setBounds(20, 70, 100, 40);
@@ -120,10 +135,14 @@ void PlayerGUI::resized()
     positionSlider.setBounds(130, 170, getWidth() - 150, 20);
     speedLabel.setBounds(20, 200, getWidth() - 40, 20);
     speedSlider.setBounds(20, 220, getWidth() - 40, 40);
+    speedSlider.setColour(juce::Slider::trackColourId, juce::Colour(0xFF5A2A3A));
+    volumeSlider.setColour(juce::Slider::trackColourId, juce::Colour(0xFF5A2A3A));
+    positionSlider.setColour(juce::Slider::trackColourId, juce::Colour(0xFF5A2A3A));
 
 
     metadataLable.setBounds(20, 380, getWidth() - 40, 40); // moved down below waveform
     playlistTitle.setBounds(20, metadataLable.getBottom() + 10, getWidth() - 40, 25);
+    playlistTitle.setColour(juce::Label::textColourId, juce::Colour(0xFFB0A0FF));
 
     int ButtonHeight = 25;
     int Buttonstarty = playlistTitle.getBottom() + 5;
@@ -135,6 +154,8 @@ void PlayerGUI::resized()
     {
         if (playButtons[i] != nullptr)
         {
+            playButtons[i]->setColour(juce::TextButton::buttonColourId, juce::Colour(0xFFB0E0E6));
+            playButtons[i]->setColour(juce::TextButton::textColourOffId, juce::Colours::black);
             juce::String buttonText = playButtons[i]->getButtonText();
             int requirWidth = buttonText.length() * 9 + 40;
             if (requirWidth > maxButtonWidth)
