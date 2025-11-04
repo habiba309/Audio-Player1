@@ -19,6 +19,9 @@ public:
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
     void releaseResources();
 	void changeListenerCallback(juce::ChangeBroadcaster* source) {}
+    bool hasFileLoaded() const { return playerAudio.hasFileLoaded(); }
+    bool isPlaying() const { return playerAudio.isPlaying(); }
+    PlayerAudio* getPlayerAudio() { return &playerAudio; }
 private:
     PlayerAudio playerAudio;
 

@@ -21,6 +21,7 @@ public:
 	void setSpeed(double newSpeed);
 	double getCurrentPosition() const;
 	double getLengths() const;
+	bool hasFileLoaded() const { return readerSource != nullptr; }
 private:
 	juce::AudioFormatManager formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
