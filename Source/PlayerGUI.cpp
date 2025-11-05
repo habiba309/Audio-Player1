@@ -1,4 +1,6 @@
 #include "PlayerGUI.h"
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
 
 PlayerGUI::PlayerGUI()
 {
@@ -155,7 +157,7 @@ void PlayerGUI::resized()
     positionSlider.setColour(juce::Slider::trackColourId, juce::Colour(0xFF5A2A3A));
 
 
-    metadataLable.setBounds(20, 410, getWidth() - 40, 40); // moved down below waveform
+    metadataLable.setBounds(20, 410, getWidth() - 40, 100); // moved down below waveform
     playlistTitle.setBounds(20, metadataLable.getBottom() + 10, getWidth() - 40, 25);
     playlistTitle.setColour(juce::Label::textColourId, juce::Colour(0xFFB0A0FF));
 
@@ -226,19 +228,35 @@ void PlayerGUI::playfile(int index)
             thumbnail.setSource(new juce::FileInputSource(loadedFiles[index]));
             isWaveformLoaded = true;
 
-            juce::StringPairArray metadata = reader->metadataValues;
-            juce::String artist = metadata["artist"].trim();
-            juce::String title = metadata["title"].trim();
-            juce::String album = metadata["album"].trim();
-            juce::String comment = metadata["comment"].trim();
-
             juce::StringArray details;
-            if (artist.isNotEmpty()) details.add("Artist->" + artist);
-            if (title.isNotEmpty()) details.add("Title->" + title);
-            if (album.isNotEmpty()) details.add("Album->" + album);
-            if (comment.isNotEmpty()) details.add("Comment->" + comment);
-            if (details.isEmpty())
+            std::string filePath = loadedFiles[index].getFullPathName().toStdString();
+            TagLib::FileRef file(filePath.c_str());
+
+            if (!file.isNull() && file.tag())
+            {
+                TagLib::Tag* tag = file.tag();
+
+                juce::String artist = juce::String(tag->artist().toCString(true)).trim();
+                juce::String title = juce::String(tag->title().toCString(true)).trim();
+                juce::String album = juce::String(tag->album().toCString(true)).trim();
+                juce::String genre = juce::String(tag->genre().toCString(true)).trim();
+                juce::String year = juce::String(tag->year());
+                juce::String comment = juce::String(tag->comment().toCString(true)).trim();
+
+                if (artist.isNotEmpty()) details.add("Artist->" + artist);
+                if (title.isNotEmpty()) details.add("Title->" + title);
+                if (album.isNotEmpty()) details.add("Album->" + album);
+                if (genre.isNotEmpty()) details.add("Genre->" + genre);
+                if (year.isNotEmpty() && year != "0") details.add("Year->" + year);
+                if (comment.isNotEmpty()) details.add("Comment->" + comment);
+
+                if (details.isEmpty())
+                    details.add("File name->" + loadedFiles[index].getFileNameWithoutExtension());
+            }
+            else
+            {
                 details.add("File name->" + loadedFiles[index].getFileNameWithoutExtension());
+            }
 
             int min = static_cast<int>(duration) / 60;
             int sec = static_cast<int>(duration) % 60;
