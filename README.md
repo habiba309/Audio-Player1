@@ -1,129 +1,196 @@
-# Audio-Player1
+# 🎧 Audio Player 1
 
-A desktop audio player built with C++ and JUCE. The project provides a dual-player interface so two audio tracks can be loaded, controlled, and played from the same window.
+![C++](https://img.shields.io/badge/Language-C++17-blue)
+![Framework](https://img.shields.io/badge/Framework-JUCE-orange)
+![Status](https://img.shields.io/badge/Status-Active-success)
 
-## Overview
+A desktop **dual audio player** built with C++ and JUCE.
+It allows you to load, control, and play **two audio tracks simultaneously** within a single interface.
 
-This application is organized around two independent player panels. Each panel manages its own audio source, playback controls, waveform display, metadata view, and playlist entries. The main window mixes the output of both players, allowing both tracks to play at the same time.
+---
 
-## Features
+## 📌 Overview
 
-- Dual audio player layout
-- Load and play multiple audio files
-- Independent playback controls for each player
-- Volume control
-- Playback speed control
-- Seek bar with current time / total time display
-- Restart, stop, pause, mute, jump to start, and jump to end controls
-- Standard looping
-- A-B loop point selection
-- Waveform visualization
-- Playlist-style buttons for loaded tracks
-- Metadata display using TagLib
-- Mixed output when both players are active
+This application features **two independent player panels**, each with its own:
 
-## Tech Stack
+* 🎵 Audio source
+* 🎛️ Playback controls
+* 📊 Waveform visualization
+* 🏷️ Metadata display
+* 📂 Playlist
 
-- C++
-- [JUCE](https://juce.com/) for GUI and audio playback
-- [TagLib](https://taglib.org/) for reading audio metadata
+💡 The main window mixes both players, enabling **simultaneous playback**.
 
-## Project Structure
+---
+
+## ✨ Features
+
+### 🎶 Core Features
+
+* 🎧 Dual audio player interface
+* 📂 Load and play multiple audio files
+* 🎛️ Independent controls for each player
+* 🔊 Volume control
+* ⏩ Playback speed control
+* ⏱️ Seek bar with time display
+
+### 🔁 Playback Controls
+
+* ▶️ Play / ⏸️ Pause / ⏹️ Stop
+* 🔄 Restart
+* 🔇 Mute
+* ⏮️ Jump to start
+* ⏭️ Jump to end
+* 🔁 Standard looping
+* 🔂 A-B loop selection
+
+### 📊 Visualization & Info
+
+* 📈 Waveform display
+* 🧾 Metadata display (via TagLib)
+* 📋 Playlist buttons
+
+### ⚡ Advanced
+
+* 🎚️ Mixed output when both players are active
+
+---
+
+## 🧰 Tech Stack
+
+* **C++**
+* **JUCE** → GUI & audio engine
+* **TagLib** → audio metadata extraction
+
+---
+
+## 📂 Project Structure
 
 ```text
 Audio-Player1/
-|-- Source/
-|   |-- Main.cpp
-|   |-- MainComponent.h
-|   |-- MainComponent.cpp
-|   |-- PlayerAudio.h
-|   |-- PlayerAudio.cpp
-|   |-- PlayerGUI.h
-|   `-- PlayerGUI.cpp
-`-- .gitignore
+├── Source/
+│   ├── Main.cpp
+│   ├── MainComponent.h
+│   ├── MainComponent.cpp
+│   ├── PlayerAudio.h
+│   ├── PlayerAudio.cpp
+│   ├── PlayerGUI.h
+│   └── PlayerGUI.cpp
+└── .gitignore
 ```
 
-## How It Works
+---
 
-### `Main.cpp`
-Creates the JUCE application and main window.
+## ⚙️ How It Works
 
-### `MainComponent`
-Owns two `PlayerGUI` instances and mixes their audio output into the main audio callback.
+### 🧩 `Main.cpp`
 
-### `PlayerAudio`
-Handles low-level audio tasks:
+* Initializes the JUCE application
+* Creates the main window
 
-- loading files
-- playback start/stop
-- transport position
-- gain control
-- speed control through resampling
-- loop configuration
+### 🧠 `MainComponent`
 
-### `PlayerGUI`
-Implements the user interface for one player:
+* Holds two `PlayerGUI` instances
+* Mixes their audio output
 
-- transport buttons
-- sliders
-- waveform drawing
-- playlist buttons
-- metadata display
-- A-B loop logic
+### 🔊 `PlayerAudio`
 
-## Supported Audio Formats
+Handles:
 
-The source currently loads:
+* File loading
+* Playback control
+* Transport position
+* Volume (gain)
+* Speed (resampling)
+* Loop configuration
 
-- `*.wav`
-- `*.mp3`
+### 🎛️ `PlayerGUI`
 
-Actual format support depends on how JUCE is configured in your build.
+Handles:
 
-## Requirements
+* UI controls (buttons & sliders)
+* Waveform rendering
+* Playlist buttons
+* Metadata display
+* A-B loop logic
 
-To build this project, you will need:
+---
 
-- A C++ compiler with JUCE support
-- JUCE installed and linked in your project
-- TagLib installed and linked in your project
-- A JUCE project setup generated manually, with Projucer, or with CMake
+## 🎵 Supported Audio Formats
 
-## Build Notes
+* `.wav`
+* `.mp3`
 
-This repository currently contains the source files only. It does not include:
+⚠️ Actual support depends on your JUCE configuration.
 
-- a `CMakeLists.txt`
-- a `.jucer` project file
-- IDE project files
+---
 
-That means you will need to create the build configuration yourself before compiling.
+## ⚙️ Requirements
 
-## Running the App
+To build the project:
 
-Once built, the app opens a window containing two audio players. For each player, you can:
+* ✅ C++ compiler
+* ✅ JUCE installed & linked
+* ✅ TagLib installed & linked
+* ⚙️ JUCE project setup (Projucer / CMake / manual)
 
-1. Load one or more audio files.
-2. Click a generated playlist button to start playback.
-3. Adjust volume, speed, and position.
-4. Use loop or A-B loop controls for repeat playback.
-5. View waveform and available metadata for the selected file.
+---
 
-## Current Notes
+## 🛠️ Build Notes
 
-- Files are loaded through a file chooser and added to an in-memory playlist.
-- Metadata is shown when available from the selected track.
-- When both players are active, the main component mixes both signals and applies a small gain reduction.
+⚠️ This repository includes **source files only**.
 
-## Future Improvements
+Missing:
 
-- Add a `CMakeLists.txt` or `.jucer` file
-- Improve duplicate file handling in playlists
-- Add drag-and-drop file loading
-- Add better error handling for unsupported or unreadable files
-- Save and restore playlists between sessions
-- Improve styling and responsive layout behavior
+* ❌ `CMakeLists.txt`
+* ❌ `.jucer` file
+* ❌ IDE project files
 
-## License
+👉 You must configure the build manually.
 
-No license file is currently included in this repository. If you plan to publish or share the project, adding a license is recommended.
+---
+
+## ▶️ Running the App
+
+After building:
+
+1. 🎵 Load audio files
+2. ▶️ Select from playlist to play
+3. 🎛️ Adjust volume, speed, position
+4. 🔁 Use loop or A-B loop
+5. 📊 View waveform & metadata
+
+---
+
+## 📝 Current Notes
+
+* Files are loaded via file chooser
+* Stored in an in-memory playlist
+* Metadata shown when available
+* 🎚️ When both players run → audio is mixed with slight gain reduction
+
+---
+
+## 🚀 Future Improvements
+
+* 📦 Add `CMakeLists.txt` or `.jucer`
+* 🔄 Improve duplicate handling
+* 🖱️ Drag & drop file support
+* ⚠️ Better error handling
+* 💾 Save/load playlists
+* 🎨 Improve UI styling
+
+---
+
+## 📄 License
+
+⚠️ No license included yet.
+👉 It’s recommended to add one if you plan to share or publish the project.
+
+---
+
+## 💡 Author
+
+**C++ / JUCE Audio Player Project**
+
+---
