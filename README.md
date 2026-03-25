@@ -62,8 +62,4 @@ This application features **two independent player panels**, each with its own:
 * **JUCE** → GUI & audio engine
 * **TagLib** → audio metadata extraction
 
----
 
-**C++ / JUCE Audio Player Project**
-
----
